@@ -21,8 +21,8 @@ export default {
         dest,
     },
     images: {
-        src: join(src, 'images'),
-        dest: join(dest, 'images'),
+        src: join(src, 'assets'),
+        dest: join(dest, 'assets'),
     },
     static: {
         src: join(src, 'static'),
