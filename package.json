@@ -58,6 +58,7 @@
     "webpack-md5-hash": "0.0.5"
   },
   "dependencies": {
-    "normalize.css": "^5.0.0"
+    "normalize.css": "^5.0.0",
+    "ramda": "^0.23.0"
   }
 }

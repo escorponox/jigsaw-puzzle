@@ -1,0 +1,78 @@
+.c-board-container {
+  @include flex-container();
+  margin-bottom: $base-spacing-unit-large;
+}
+
+.c-puzzle {
+  position: relative;
+  height: 579px;
+  width: 868px;
+  min-width: 868px;
+  margin-right: $base-spacing-unit;
+}
+
+.c-puzzle__solved {
+  position: absolute;
+  top: 0;
+  left:0;
+  display: inline-block;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.c-puzzle__unsolved {
+  @extend .c-puzzle__solved;
+  opacity: 1;
+  visibility: visible;
+}
+
+.c-puzzle__hexagon {
+  position: absolute;
+  width: 85px;
+  height: 85px;
+  background-color: $color-alpha-light;
+  border-radius: 50%;
+  overflow: visible;
+}
+
+@for $col from 1 through 9 {
+  .col-#{$col} {
+    left: 53px + 84px*($col - 1);
+  }
+}
+
+@for $row from 1 through 9 {
+  .row-#{$row} {
+    top: 51px + 48.5px*($row - 1);
+  }
+}
+
+.c-controls {
+  @include flex-container($spacing: center);
+}
+
+.c-pieces {
+  position: relative;
+  height: 300px;
+}
+
+.c-pieces__piece {
+  position: absolute;
+  display: inline-block;
+
+  @for $scramble-row from 0 through 4 {
+    @for $scramble-col from 1 through 9 {
+      &:nth-child(#{$scramble-col + ($scramble-row * 9)}) {
+        top: $scramble-row * 40px;
+        left: $scramble-col * 110px - 110px;
+      }
+    }
+  }
+
+  @at-root .c-puzzle__hexagon & {
+    width: 110px;
+    height: 95px;
+    top: -5px;
+    left: -12px;
+  }
+}

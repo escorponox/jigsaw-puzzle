@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,700|Source+Sans+Pro:400,600');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600');
 @import "settings.global";
 @import "settings.colors";
 @import "tools.mixins";
@@ -7,7 +7,9 @@
 @import "generic.box-sizing";
 @import "generic.reset";
 @import "generic.shared";
+@import "elements.page";
 @import "elements.links";
-@import "elements.images";
+@import "elements.semantic-layout";
 @import "objects.display";
-@import "components.puzzle";
+@import "components.header";
+@import "components.board";
