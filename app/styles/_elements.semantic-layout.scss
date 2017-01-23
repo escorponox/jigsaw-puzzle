@@ -16,7 +16,7 @@ main {
 }
 
 footer {
-  @include flex-container(column,stretch);
+  @include flex-container($spacing: center);
   background-color: $color-grey-dark;
   color: $color-grey-light;
   height: 4rem;
