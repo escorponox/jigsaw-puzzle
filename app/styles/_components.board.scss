@@ -14,7 +14,7 @@
 .c-puzzle__solved {
   position: absolute;
   top: 0;
-  left:0;
+  left: 0;
   display: inline-block;
   opacity: 0;
   visibility: hidden;
@@ -35,17 +35,57 @@
   overflow: visible;
 }
 
-@for $col from 1 through 9 {
-  .col-#{$col} {
-    left: 53px + 84px*($col - 1);
+$col-map: (
+        1: 53px,
+        2: 137px,
+        3: 221px,
+        4: 305px,
+        5: 389px,
+        6: 473px,
+        7: 557px,
+        8: 641px,
+        9: 725px
+);
+@each $key, $value in $col-map {
+  .col-#{$key} {
+    left: $value;
   }
 }
 
-@for $row from 1 through 9 {
-  .row-#{$row} {
-    top: 51px + 48.5px*($row - 1);
+$row-map: (
+        1: 51px,
+        2: 99px,
+        3: 148px,
+        4: 196px,
+        5: 245px,
+        6: 293px,
+        7: 342px,
+        8: 390px,
+        9: 439px,
+);
+
+@each $key, $value in $row-map {
+  .row-#{$key} {
+    top: $value;
   }
 }
+
+#hexagon-14 {
+  top: 147px;
+}
+
+#hexagon-23 {
+  top: 244px;
+}
+
+#hexagon-32 {
+  top: 341px;
+}
+
+#hexagon-41 {
+  top: 438px;
+}
+
 
 .c-controls {
   @include flex-container($spacing: center);

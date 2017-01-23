@@ -1,4 +1,5 @@
 import shuffle from './shuffle';
+import styles from '../styles/app.scss'
 
 const hexagons = Array.from(document.querySelectorAll('.c-puzzle__hexagon'));
 const preventDefault = (event) => event.preventDefault();
@@ -12,7 +13,6 @@ const dropPiece = (event) => {
     currentTarget.appendChild(document.getElementById(event.dataTransfer.getData("text/plain")));
     currentTarget.setAttribute('data-empty', 'false');
   }
-  console.log(event);
 };
 
 hexagons.forEach((hexagon) => {
@@ -32,7 +32,6 @@ const pieces = Array.from(document.querySelectorAll('.c-pieces__piece'));
 const pickImage = (ev) => {
   ev.dataTransfer.setData("text/plain", ev.target.id);
   ev.dataTransfer.dropEffect = "copy";
-  console.log(ev);
 };
 
 const dragAndDropPiecesHandlers = (piece) => {
