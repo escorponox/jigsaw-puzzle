@@ -12,6 +12,7 @@
     "prebuild:prod": "npm run clean-and-copy",
     "build": "webpack --env.dev",
     "build:prod": "webpack --env.prod -p",
+    "deploy:gh-pages": "gh-pages -d dist",
     "test": "babel-tape-runner ./test/**/*.test.js | tap-diff",
     "test-verbose": "babel-tape-runner ./test/**/*.test.js",
     "test-summ": "babel-tape-runner ./test/**/*.test.js | tap-summary"
@@ -37,6 +38,8 @@
     "copyfiles": "^1.0.0",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^2.0.0-beta.5",
+    "gh-pages": "^0.12.0",
+    "html-minifier": "^3.3.0",
     "html-webpack-plugin": "^2.26.0",
     "node-sass": "^4.3.0",
     "path": "^0.12.7",

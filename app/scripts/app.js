@@ -74,14 +74,6 @@ const dropAndCheck = (event) => {
   checkResolved();
 };
 
-const solve = () => {
-  hexagons.forEach(hexagon => {
-    hexagon.appendChild(document.getElementById('piece'.concat(hexagon.getAttribute('data-piece'))))
-  });
-  checkResolved();
-};
-
-
 const showHint = () => solved.classList.add('show');
 const hideHint = () => solved.classList.remove('show');
 

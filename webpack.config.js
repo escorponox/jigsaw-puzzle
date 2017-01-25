@@ -36,6 +36,10 @@ module.exports = env => {
     new HtmlWebpackPlugin({
       template: './index.html',
       inject: 'body',
+      minify: env.prod ? {
+          collapseWhitespace: true,
+          conservativeCollapse: true
+        } : false,
     })
   ];
 
@@ -52,7 +56,7 @@ module.exports = env => {
     output: {
       path: path.resolve(__dirname, './dist'),
       filename: '[name].bundle.js',
-      publicPath: '/'
+      publicPath: './'
     },
     devServer: {
       contentBase: path.resolve(__dirname, './dist/'),  // New
