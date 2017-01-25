@@ -81,10 +81,11 @@
       <div class="coves-form__checkbox-container">
         <input id="hard-mode" type="checkbox" class="o-display-none">
         <label for="hard-mode" class="coves-form__checkbox-container__fake-label">
-          <div class="check-mark"></div>
+          <span class="check-mark"></span>
         </label>
         <label for="hard-mode" class="check-label">Hard Mode</label>
       </div>
+      <div id="timer">5:00</div>
     </div>
   </div>
   <div class="c-pieces" data-empty="always">
@@ -135,6 +136,22 @@
 <footer>
   <div>Carlos Coves Prieto 2016</div>
 </footer>
+<audio id="start-audio">
+  <source src="assets/sounds/start.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<audio id="fail-audio">
+  <source src="assets/sounds/fail.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<audio id="win-audio">
+  <source src="assets/sounds/win.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<audio id="reset-audio">
+  <source src="assets/sounds/reset.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 </body>
 
 </html>

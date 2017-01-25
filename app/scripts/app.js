@@ -1,4 +1,5 @@
 import shuffle from './shuffle';
+import {dragOver, dropPiece, pickImage} from './drag-and-drop';
 import styles from '../styles/app.scss'
 
 //DOM caching
@@ -9,45 +10,103 @@ const start = document.getElementById('start');
 const hint = document.getElementById('hint');
 const reset = document.getElementById('reset');
 const hardMode = document.getElementById('hard-mode');
+const timer = document.getElementById('timer');
 const solved = document.getElementById('solved');
 const unsolved = document.getElementById('unsolved');
+const startSound = document.getElementById('start-audio');
+const failSound = document.getElementById('fail-audio');
+const winSound = document.getElementById('win-audio');
+const resetSound = document.getElementById('reset-audio');
+
+let remainingTime = 300;
+let timerIntervalID;
+
+const updateTimer = time => {
+  time > 60 ? timer.classList.remove('alert') : timer.classList.add('alert');
+  timer.innerHTML = `${~~(time / 60)}:${time % 60 < 10 ? '0' : ''}${time % 60}`;
+};
+
+const resetGame = () => {
+  unsolved.classList.remove('show');
+  piecesContainer.classList.remove('show');
+  hexagons.forEach(hexagon => hexagon.classList.remove('finished'));
+  pieces.forEach(piece => piecesContainer.appendChild(piece));
+  remainingTime = hardMode.checked ? 180 : 300;
+  start.disabled = false;
+  hint.disabled = true;
+  reset.disabled = true;
+  hardMode.disabled = false;
+  solved.classList.add('show');
+  clearInterval(timerIntervalID);
+  updateTimer(remainingTime);
+};
+
+const failed = () => {
+  failSound.play();
+  resetGame();
+};
+
+const resetButton = () => {
+  resetSound.play();
+  resetGame();
+};
+
+const win = () => {
+  winSound.play();
+  hexagons.forEach(hexagon => hexagon.classList.add('finished'));
+  clearInterval(timerIntervalID);
+};
+
+const timerInterval = () => remainingTime > 0 ? updateTimer(--remainingTime) : failed();
+
 
 const checkResolved = () => {
   const resolved = hexagons.every(hexagon => {
     return hexagon.firstElementChild && (hexagon.firstElementChild.getAttribute('data-piece') === hexagon.getAttribute('data-piece'))
   });
   if (resolved) {
-    hexagons.forEach( hexagon => {
-      hexagon.classList.add('finished');
-    })
+    win();
   }
 };
 
-const dragOver = (event) => {
-  event.preventDefault();
-  event.dataTransfer.dropEffect = "copy";
+const dropAndCheck = (event) => {
+  dropPiece(event);
+  checkResolved();
 };
 
-const dropPiece = (event) => {
-  event.preventDefault();
-  const destination = event.currentTarget;
-  const dataEmpty = destination.getAttribute('data-empty');
+const solve = () => {
+  hexagons.forEach(hexagon => {
+    hexagon.appendChild(document.getElementById('piece'.concat(hexagon.getAttribute('data-piece'))))
+  });
+  checkResolved();
+};
 
-  if (dataEmpty) {
-    destination.appendChild(document.getElementById(event.dataTransfer.getData("text/plain")));
-    if (dataEmpty === 'true') {
-      destination.setAttribute('data-empty', '');
-      checkResolved();
-    }
-    const origin = event.dataTransfer.getData("origin");
-    if (origin) {
-      document.getElementById(origin).setAttribute('data-empty', 'true');
-    }
+
+const showHint = () => solved.classList.add('show');
+const hideHint = () => solved.classList.remove('show');
+
+const startGame = (event) => {
+  startSound.play();
+  shuffle(piecesContainer);
+  start.disabled = true;
+  if (!hardMode.checked) {
+    hint.disabled = false;
   }
+  reset.disabled = false;
+  hardMode.disabled = true;
+  piecesContainer.classList.add('show');
+  solved.classList.remove('show');
+  unsolved.classList.add('show');
+  timerIntervalID = setInterval(timerInterval, 1000);
+};
+
+const toggleHardMode = (event) => {
+  remainingTime = event.target.checked ? 180 : 300;
+  updateTimer(remainingTime);
 };
 
 hexagons.forEach((hexagon) => {
-  hexagon.addEventListener('drop', dropPiece);
+  hexagon.addEventListener('drop', dropAndCheck);
   hexagon.addEventListener('dragover', dragOver);
   hexagon.addEventListener('dragstart', pickImage);
 });
@@ -55,40 +114,13 @@ hexagons.forEach((hexagon) => {
 piecesContainer.addEventListener('drop', dropPiece);
 piecesContainer.addEventListener('dragover', dragOver);
 
-const showHint = () => solved.classList.add('show');
-const hideHint = () => solved.classList.remove('show');
+pieces.forEach((piece) => piece.addEventListener('dragstart', pickImage));
 
-const startGame = (event) => {
-  shuffle(piecesContainer);
-  event.target.disabled = true;
-  if (!hardMode.checked) {
-    hint.disabled = false;
-    hint.addEventListener('mousedown', showHint);
-    hint.addEventListener('mouseup', hideHint);
-  }
-  reset.disabled = false;
-  hardMode.disabled = true;
-  piecesContainer.classList.add('show');
-  hideHint();
-  unsolved.classList.add('show');
-};
-
-document.getElementById('start').addEventListener('click', startGame);
-
-const pickImage = (event) => {
-  event.dataTransfer.setData("text/plain", event.target.id);
-  event.dataTransfer.dropEffect = "copy";
-  if (event.target.parentNode.classList.contains('c-puzzle__hexagon')) {
-    event.dataTransfer.setData("origin", event.target.parentNode.id);
-  }
-};
-
-const dragAndDropPiecesHandlers = (piece) => {
-  piece.addEventListener('dragstart', pickImage);
-};
-
-pieces.forEach(dragAndDropPiecesHandlers);
-
+start.addEventListener('click', startGame);
+reset.addEventListener('click', resetButton);
+hint.addEventListener('mousedown', showHint);
+hint.addEventListener('mouseup', hideHint);
+hardMode.addEventListener('change', toggleHardMode);
 
 // https://webpack.github.io/docs/hot-module-replacement.html
 if (module.hot) {

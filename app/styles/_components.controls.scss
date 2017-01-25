@@ -62,6 +62,7 @@
 }
 
 .check-mark {
+  display: inline-block;
   position: absolute;
   top: 2px;
   left: 7px;
@@ -96,4 +97,13 @@
 .coves-form__checkbox-container input[type=checkbox]:disabled ~ .check-label {
   color: $color-grey-light;
   cursor: not-allowed;
+}
+
+#timer {
+  @include font-size(40px);
+  font-weight: 600;
+
+  &.alert {
+    color: $color-red;
+  }
 }
