@@ -11,28 +11,57 @@
   margin-right: $base-spacing-unit;
 }
 
-.c-puzzle__solved {
+.c-puzzle__solved,
+.c-puzzle__unsolved {
   position: absolute;
   top: 0;
   left: 0;
   display: inline-block;
   opacity: 0;
   visibility: hidden;
+  transition: opacity 0.3s, visibility 0s linear 0.3s;
+  box-shadow: 4px 3px 3px 1px $color-alpha;
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s;
+  }
 }
 
-.c-puzzle__unsolved {
-  @extend .c-puzzle__solved;
-  opacity: 1;
-  visibility: visible;
+@keyframes finish {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.4);
+  }
+  50% {
+    transform: rotateZ(360deg);
+  }
+  75% {
+    transform: rotateZ(720deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
 }
 
 .c-puzzle__hexagon {
   position: absolute;
   width: 85px;
   height: 85px;
-  background-color: $color-alpha-light;
   border-radius: 50%;
-  overflow: visible;
+
+  &.finished {
+    animation: finish 1s ease-in-out 0ms 10;
+    @for $index from 1 through 41 {
+      &:nth-of-type(#{$index}) {
+        animation-delay: 3s + ($index*0.2s);
+      }
+    }
+  }
+
 }
 
 $col-map: (
@@ -86,14 +115,18 @@ $row-map: (
   top: 438px;
 }
 
-
-.c-controls {
-  @include flex-container($spacing: center);
-}
-
 .c-pieces {
   position: relative;
   height: 300px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s, visibility 0s linear 0.6s;
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s;
+  }
 }
 
 .c-pieces__piece {

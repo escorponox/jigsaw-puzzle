@@ -20,8 +20,8 @@
 <main>
   <div class="c-board-container">
     <div class="c-puzzle">
-      <img class="c-puzzle__unsolved" src="assets/images/unsolved.png" alt="unsolved puzzle">
-      <img class="c-puzzle__solved" src="assets/images/solved.png" alt="solved puzzle">
+      <img id="unsolved" class="c-puzzle__unsolved" src="assets/images/unsolved.png" alt="unsolved puzzle">
+
       <div id="hexagon-5"  data-piece="45" data-empty="true" class="c-puzzle__hexagon row-1 col-1"></div>
       <div id="hexagon-6"  data-piece="41" data-empty="true" class="c-puzzle__hexagon row-1 col-3"></div>
       <div id="hexagon-7"  data-piece="37" data-empty="true" class="c-puzzle__hexagon row-1 col-5"></div>
@@ -71,12 +71,23 @@
       <div id="hexagon-43" data-piece="21" data-empty="true" class="c-puzzle__hexagon row-9 col-5"></div>
       <div id="hexagon-44" data-piece="20" data-empty="true" class="c-puzzle__hexagon row-9 col-7"></div>
       <div id="hexagon-45" data-piece="19" data-empty="true" class="c-puzzle__hexagon row-9 col-9"></div>
+
+      <img id="solved" class="c-puzzle__solved show" src="assets/images/solved.png" alt="solved puzzle">
     </div>
     <div class="c-controls">
-      <button id="shuffle" class="shuffle">Shuffle</button>
+      <button id="start" class="button--lg">Start</button>
+      <button id="hint" class="button--lg" disabled>Hint</button>
+      <button id="reset" class="button--lg" disabled>Reset</button>
+      <div class="coves-form__checkbox-container">
+        <input id="hard-mode" type="checkbox" class="o-display-none">
+        <label for="hard-mode" class="coves-form__checkbox-container__fake-label">
+          <div class="check-mark"></div>
+        </label>
+        <label for="hard-mode" class="check-label">Hard Mode</label>
+      </div>
     </div>
   </div>
-  <div class="c-pieces">
+  <div class="c-pieces" data-empty="always">
     <img src="assets/images/item5.png" id="piece5" data-piece="5" alt="piece5" class="c-pieces__piece">
     <img src="assets/images/item6.png" id="piece6" data-piece="6" alt="piece6" class="c-pieces__piece">
     <img src="assets/images/item7.png" id="piece7" data-piece="7" alt="piece7" class="c-pieces__piece">

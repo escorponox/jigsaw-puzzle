@@ -4,10 +4,10 @@
   "description": "A jigsaw puzzle for BovAcademy.",
   "scripts": {
     "clean-dist": "rimraf dist",
-    "copy-files": "copyfiles -u 1 app/index.html app/assets/**/* app/static/* dist",
+    "copy-files": "copyfiles -u 1 app/index.html app/assets/**/* dist && copyfiles -u 2 app/static/* dist",
     "clean-and-copy": "npm run clean-dist && npm run copy-files",
     "prestart": "npm run clean-and-copy",
-    "start": "webpack-dev-server --env.dev --hot",
+    "start": "webpack-dev-server --env.dev --hot --host 0.0.0.0",
     "prebuild": "npm run clean-and-copy",
     "prebuild:prod": "npm run clean-and-copy",
     "build": "webpack --env.dev",
