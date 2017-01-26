@@ -20,11 +20,14 @@ const resetSound = document.getElementById('reset-audio');
 
 let remainingTime = 300;
 let timerIntervalID;
+let remainingHints = 3;
 
 const updateTimer = time => {
   time > 60 ? timer.classList.remove('alert') : timer.classList.add('alert');
   timer.innerHTML = `${~~(time / 60)}:${time % 60 < 10 ? '0' : ''}${time % 60}`;
 };
+
+const updateHints = times => hint.innerHTML = `Hint${times ? ` (${times})` : ''}`;
 
 const resetGame = () => {
   unsolved.classList.remove('show');
@@ -32,6 +35,8 @@ const resetGame = () => {
   hexagons.forEach(hexagon => hexagon.classList.remove('finished'));
   pieces.forEach(piece => piecesContainer.appendChild(piece));
   remainingTime = hardMode.checked ? 180 : 300;
+  remainingHints = hardMode.checked ? 0 : 3;
+  updateHints(remainingHints);
   start.disabled = false;
   hint.disabled = true;
   reset.disabled = true;
@@ -74,8 +79,19 @@ const dropAndCheck = (event) => {
   checkResolved();
 };
 
-const showHint = () => solved.classList.add('show');
-const hideHint = () => solved.classList.remove('show');
+const showHint = () => {
+  solved.classList.add('show');
+  updateHints(--remainingHints);
+  window.addEventListener('mouseup', hideHint);
+};
+
+const hideHint = () => {
+  solved.classList.remove('show');
+  if(!remainingHints) {
+    hint.disabled = true;
+  }
+  window.removeEventListener('mouseup', hideHint);
+};
 
 const startGame = (event) => {
   startSound.play();
@@ -94,7 +110,9 @@ const startGame = (event) => {
 
 const toggleHardMode = (event) => {
   remainingTime = event.target.checked ? 180 : 300;
+  remainingHints = event.target.checked ? 0 : 3;
   updateTimer(remainingTime);
+  updateHints(remainingHints);
 };
 
 hexagons.forEach((hexagon) => {
@@ -111,7 +129,6 @@ pieces.forEach((piece) => piece.addEventListener('dragstart', pickImage));
 start.addEventListener('click', startGame);
 reset.addEventListener('click', resetButton);
 hint.addEventListener('mousedown', showHint);
-hint.addEventListener('mouseup', hideHint);
 hardMode.addEventListener('change', toggleHardMode);
 
 // https://webpack.github.io/docs/hot-module-replacement.html
